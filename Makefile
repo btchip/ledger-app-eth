@@ -25,12 +25,12 @@ APP_LOAD_PARAMS= --curve secp256k1 $(COMMON_LOAD_PARAMS)
 # Allow the app to use path 45 for multi-sig (see BIP45).
 APP_LOAD_PARAMS += --path "45'"
 # Samsung temporary implementation for wallet ID on 0xda7aba5e/0xc1a551c5
-APP_LOAD_PARAMS += --path "1517992542'/1101353413'"
+#APP_LOAD_PARAMS += --path "1517992542'/1101353413'"
 
 APPVERSION_M=1
-APPVERSION_N=2
-APPVERSION_P=13
-APPVERSION=$(APPVERSION_M).$(APPVERSION_N).$(APPVERSION_P)
+APPVERSION_N=3
+APPVERSION_P=0
+APPVERSION=$(APPVERSION_M).$(APPVERSION_N).$(APPVERSION_P)-sk1
 APP_LOAD_FLAGS= --appFlags 0x240 --dep Ethereum:$(APPVERSION)
 
 ifeq ($(CHAIN),)
@@ -41,6 +41,10 @@ ifeq ($(CHAIN),ethereum)
 # Lock the application on its standard path for 1.5. Please complain if non compliant
 APP_LOAD_PARAMS += --path "44'/60'"
 DEFINES += CHAINID_UPCASE=\"ETHEREUM\" CHAINID_COINNAME=\"ETH\" CHAIN_KIND=CHAIN_KIND_ETHEREUM CHAIN_ID=0
+# Starkware integration
+APP_LOAD_PARAMS += --path "21323'" # Placeholder Starkware SK'
+DEFINES += HAVE_STARKWARE
+DEFINES += STARK_BIP32_PATH_0=0x8000534B # Placeholder Starkware SK' 
 APPNAME = "Ethereum"
 DEFINES_LIB=
 APP_LOAD_FLAGS=--appFlags 0xa40
@@ -229,7 +233,7 @@ DEFINES   += IO_SEPROXYHAL_BUFFER_SIZE_B=128
 endif
 
 # Enabling debug PRINTF
-DEBUG = 0
+DEBUG = 1 
 ifneq ($(DEBUG),0)
 ifeq ($(TARGET_NAME),TARGET_NANOX)
 DEFINES   += HAVE_PRINTF PRINTF=mcu_usb_printf
@@ -278,7 +282,7 @@ LDLIBS   += -lm -lgcc -lc
 include $(BOLOS_SDK)/Makefile.glyphs
 
 ### variables processed by the common makefile.rules of the SDK to grab source files and include dirs
-APP_SOURCE_PATH  += src_common src
+APP_SOURCE_PATH  += src_common src src_features
 SDK_SOURCE_PATH  += lib_stusb lib_stusb_impl lib_u2f
 ifeq ($(TARGET_NAME),TARGET_NANOX)
 SDK_SOURCE_PATH  += lib_blewbxx lib_blewbxx_impl

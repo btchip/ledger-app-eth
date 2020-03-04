@@ -21,8 +21,9 @@
 #include <stdint.h>
 
 typedef struct tokenDefinition_t {
+    uint8_t contractName[20];
     uint8_t address[20];
-    uint8_t ticker[10];
+    uint8_t ticker[12]; // 10 characters + ' \0'
     uint8_t decimals;
 } tokenDefinition_t;
 
