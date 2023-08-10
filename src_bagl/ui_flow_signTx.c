@@ -103,6 +103,14 @@ UX_STEP_NOCB(ux_approval_review_step,
       "Review",
       "transaction",
     });
+UX_STEP_NOCB_INIT(
+    ux_approval_from_step,
+    bnnn_paging,
+    ui_prepare_from_address(),
+    {
+      .title = "From",
+      .text = strings.common.fullAddress,
+    });
 UX_STEP_NOCB(
     ux_approval_amount_step,
     bnnn_paging,
@@ -110,9 +118,10 @@ UX_STEP_NOCB(
       .title = "Amount",
       .text = strings.common.fullAmount
     });
-UX_STEP_NOCB(
+UX_STEP_NOCB_INIT(
     ux_approval_address_step,
     bnnn_paging,
+    ui_prepare_destination_address(),
     {
       .title = "Address",
       .text = strings.common.fullAddress,
@@ -210,6 +219,8 @@ void ux_approve_tx(bool fromPlugin) {
     if (!fromPlugin && tmpContent.txContent.dataPresent && !N_storage.contractDetails) {
         ux_approval_tx_flow[step++] = &ux_approval_blind_signing_warning_step;
     }
+
+    ux_approval_tx_flow[step++] = &ux_approval_from_step;
 
     if (fromPlugin) {
         // Add the special dynamic display logic

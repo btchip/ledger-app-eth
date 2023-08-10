@@ -275,12 +275,12 @@ static void get_network_as_string(char *out, size_t out_size) {
     }
 }
 
-static void get_public_key(uint8_t *out, uint8_t outLength) {
+void get_from_address(uint8_t *out, uint8_t outLength, bool binary) {
     uint8_t privateKeyData[INT256_LENGTH] = {0};
     cx_ecfp_private_key_t privateKey = {0};
     cx_ecfp_public_key_t publicKey = {0};
 
-    if (outLength < ADDRESS_LENGTH) {
+    if (outLength < (binary ? ADDRESS_LENGTH : 2 * ADDRESS_LENGTH)) {
         return;
     }
 
@@ -293,7 +293,12 @@ static void get_public_key(uint8_t *out, uint8_t outLength) {
     cx_ecfp_generate_pair(CX_CURVE_256K1, &publicKey, &privateKey, 1);
     explicit_bzero(&privateKey, sizeof(privateKey));
     explicit_bzero(privateKeyData, sizeof(privateKeyData));
-    getEthAddressFromKey(&publicKey, out, &global_sha3);
+    if (binary) {
+        getEthAddressFromKey(&publicKey, out, &global_sha3);
+    }
+    else {
+        getEthAddressStringFromKey(&publicKey, out, &global_sha3, chainConfig->chainId);
+    }
 }
 
 /* Local implmentation of strncasecmp, workaround of the segfaulting base implem
@@ -345,7 +350,7 @@ void finalizeParsing(bool direct) {
         eth_plugin_prepare_finalize(&pluginFinalize);
 
         uint8_t msg_sender[ADDRESS_LENGTH] = {0};
-        get_public_key(msg_sender, sizeof(msg_sender));
+        get_from_address(msg_sender, sizeof(msg_sender), true);
         pluginFinalize.address = msg_sender;
 
         if (!eth_plugin_call(ETH_PLUGIN_FINALIZE, (void *) &pluginFinalize)) {

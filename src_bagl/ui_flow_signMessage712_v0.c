@@ -29,6 +29,14 @@ UX_STEP_NOCB(
       "typed message",
     });
 UX_STEP_NOCB_INIT(
+    ux_sign_712_v0_from_step,
+    bnnn_paging,
+    ui_191_prepare_from_address(),
+    {
+      .title = "From",
+      .text = strings.tmp.tmp2,
+    });
+UX_STEP_NOCB_INIT(
     ux_sign_712_v0_flow_2_step,
     bnnn_paging,
     prepare_domain_hash_v0(),
@@ -66,6 +74,7 @@ UX_STEP_CB(
 
 UX_FLOW(ux_sign_712_v0_flow,
         &ux_sign_712_v0_flow_1_step,
+        &ux_sign_712_v0_from_step,
         &ux_sign_712_v0_flow_2_step,
         &ux_sign_712_v0_flow_3_step,
         &ux_sign_712_v0_flow_4_step,

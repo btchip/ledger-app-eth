@@ -37,6 +37,14 @@ UX_STEP_NOCB(
       "Sign",
       "message",
     });
+UX_STEP_NOCB_INIT(
+    ux_191_step_from,
+    bnnn_paging,
+    ui_191_prepare_from_address(),
+    {
+      .title = "From",
+      .text = strings.tmp.tmp2,
+    });
 UX_STEP_NOCB(
     ux_191_step_message,
     bnnn_paging,
@@ -98,6 +106,7 @@ UX_STEP_CB(
 
 UX_FLOW(ux_191_flow,
         &ux_191_step_review,
+        &ux_191_step_from,
         &ux_191_step_message,
         &ux_191_step_dummy_pre,
         &ux_191_step_theres_more,

@@ -38,6 +38,14 @@ UX_STEP_NOCB(
       "Review",
       "typed message",
     });
+UX_STEP_NOCB_INIT(
+    ux_712_step_from,
+    bnnn_paging,
+    ui_191_prepare_from_address(),
+    {
+      .title = "From",
+      .text = strings.tmp.tmp2,
+    });
 UX_STEP_NOCB(
    ux_712_step_dynamic,
    bnnn_paging,
@@ -74,6 +82,7 @@ UX_STEP_CB(
 
 UX_FLOW(ux_712_flow,
         &ux_712_step_review,
+        &ux_712_step_from,
         &ux_712_step_dynamic,
         &ux_712_step_dummy,
         &ux_712_step_approve,

@@ -1,6 +1,12 @@
 #include "os_io_seproxyhal.h"
 #include "common_ui.h"
 
+void ui_191_prepare_from_address(void) {
+    strings.tmp.tmp2[0] = '0';
+    strings.tmp.tmp2[1] = 'x';
+    get_from_address(strings.tmp.tmp2 + 2, sizeof(strings.tmp.tmp2) - 2, false);
+}
+
 unsigned int io_seproxyhal_touch_signMessage_ok(void) {
     uint8_t privateKeyData[INT256_LENGTH];
     uint8_t signature[100];

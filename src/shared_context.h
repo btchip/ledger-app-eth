@@ -191,7 +191,7 @@ typedef struct txStringProperties_s {
 #else
 #define SHARED_CTX_FIELD_1_SIZE 256
 #endif
-#define SHARED_CTX_FIELD_2_SIZE 40
+#define SHARED_CTX_FIELD_2_SIZE 45
 
 typedef struct strDataTmp_s {
     char tmp[SHARED_CTX_FIELD_1_SIZE];

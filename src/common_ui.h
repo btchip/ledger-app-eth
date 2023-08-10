@@ -16,6 +16,9 @@ void ui_confirm_parameter(void);
 void ui_stark_limit_order(void);
 void ui_stark_unsafe_sign(void);
 void ui_stark_transfer(bool selfTransfer, bool conditional);
+void ui_prepare_from_address(void);
+void ui_prepare_destination_address(void);
+void ui_191_prepare_from_address(void);
 
 // EIP-191
 void ui_191_start(void);

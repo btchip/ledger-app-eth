@@ -96,7 +96,11 @@ static nbgl_layoutTagValue_t *getTagValuePair(uint8_t pairIndex) {
         }
     } else {
         uint8_t target_index = 0;
-
+        if (pairIndex == target_index++) {
+            ui_prepare_from_address();
+            pair.item = "From";
+            pair.value = strings.common.fullAddress;
+        }
         if (pairIndex == target_index++) {
             pair.item = "Amount";
             pair.value = strings.common.fullAmount;
@@ -111,12 +115,13 @@ static nbgl_layoutTagValue_t *getTagValuePair(uint8_t pairIndex) {
         if (!tx_approval_context.domain_name_match || N_storage.verbose_domain_name) {
 #endif  // HAVE_DOMAIN_NAME
             if (pairIndex == target_index++) {
+                ui_prepare_destination_address();
                 pair.item = "Address";
                 pair.value = strings.common.fullAddress;
             }
 #ifdef HAVE_DOMAIN_NAME
         }
-#endif  // HAVE_DOMAIN_NAME
+#endif  // HAVE_DOMAIN_NAMEv0_from_step
         if (N_storage.displayNonce) {
             if (pairIndex == target_index++) {
                 pair.item = "Nonce";
@@ -203,6 +208,7 @@ static void reviewContinueCommon(void) {
         nbPairs += dataContext.tokenContext.pluginUiMaxItems + 1;
     } else {
         nbPairs += 3;
+        nbPairs++; // from 
         if (N_storage.displayNonce) {
             nbPairs++;
         }

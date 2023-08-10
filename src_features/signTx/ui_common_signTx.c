@@ -4,6 +4,20 @@
 #include "common_ui.h"
 #include "handle_swap_sign_transaction.h"
 
+void ui_prepare_from_address(void) {
+    strings.common.fullAddress[0] = '0';
+    strings.common.fullAddress[1] = 'x';
+    get_from_address(strings.common.fullAddress + 2, sizeof(strings.common.fullAddress) - 2, false);
+}
+
+void ui_prepare_destination_address(void) {
+        getEthDisplayableAddress(tmpContent.txContent.destination,
+                          strings.common.fullAddress,
+                          sizeof(strings.common.fullAddress),
+                          &global_sha3,
+                          chainConfig->chainId);
+}
+
 unsigned int io_seproxyhal_touch_tx_ok(__attribute__((unused)) const bagl_element_t *e) {
     uint8_t privateKeyData[INT256_LENGTH];
     uint8_t signature[100];

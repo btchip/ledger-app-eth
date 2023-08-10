@@ -55,7 +55,7 @@ parser.add_argument('--messageHash', help='Message Hash (hex)', required=True)
 args = parser.parse_args()
 
 if args.path == None:
-    args.path = "44'/60'"
+    args.path = "44'/60'/0'/0/0"
 domainHash = binascii.unhexlify(args.domainHash)
 messageHash = binascii.unhexlify(args.messageHash)
 
