@@ -192,9 +192,11 @@ static uint16_t handleApdu(command_t *cmd, uint32_t *flags, uint32_t *tx) {
                     forget_known_assets();
                     sw = handleSignEIP712Message_v0(cmd->p1, cmd->data, cmd->lc, flags);
                     break;
+#if 0
                 case P2_EIP712_FULL_IMPLEM:
                     sw = handle_eip712_sign(cmd->data, cmd->lc, flags);
                     break;
+#endif
                 default:
                     sw = APDU_RESPONSE_INVALID_P1_P2;
             }
@@ -211,6 +213,7 @@ static uint16_t handleApdu(command_t *cmd, uint32_t *flags, uint32_t *tx) {
             break;
 #endif  // HAVE_ETH2
 
+#if 0
         case INS_EIP712_STRUCT_DEF:
             sw = handle_eip712_struct_def(cmd->p2, cmd->data, cmd->lc);
             break;
@@ -222,6 +225,7 @@ static uint16_t handleApdu(command_t *cmd, uint32_t *flags, uint32_t *tx) {
         case INS_EIP712_FILTERING:
             sw = handle_eip712_filtering(cmd->p1, cmd->p2, cmd->data, cmd->lc, flags);
             break;
+#endif
 
         case INS_ENS_GET_CHALLENGE:
             sw = handle_get_challenge(tx);
